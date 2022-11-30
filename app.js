@@ -3,14 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mongoose = require('mongoose');
+const session = require('express-session');
+//const mongoose = require('mongoose');
+//const methodOverride = require('method-override')
 
 
 var homeRouter = require('./routes/home');
 var usersRouter = require('./routes/users');
+var sessionsRouter = require('./routes/sessions');
 
 const User = require('./models/user')
 
+var bodyParser = require('body-parser')
 
 var app = express();
 // view engine setup
@@ -22,12 +26,49 @@ app.set('view engine', 'hbs')
 
 app.use(logger('dev'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+//app.use(methodOverride('_method'))
 
 app.use('/', homeRouter);
 app.use('/users', usersRouter);
+app.use('/sessions', sessionsRouter);
+
+// sessions
+app.use(
+  session({
+    key: 'user_sid',
+    secret: 'super_secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 600000
+    }
+  })
+)
+
+// clear the cookies after user logs out
+app.use((req, res, next) => {
+  if (req.cookies.user_sid && !req.session.user) {
+    res.clearCookie('user_sid')
+  }
+  next()
+})
+
+// middleware function to check for logged-in users
+const sessionChecker = (req, res, next) => {
+  if (!req.session.user && !req.cookies.user_sid) {
+    res.redirect('/sessions/new')
+  } else {
+    next()
+  }
+}
+
+// routes
+
 
 
 // catch 404 and forward to error handler
