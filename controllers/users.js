@@ -32,26 +32,7 @@ const UsersController = {
         }
       })
     }
-      
-
-      
-  
-
-      
       }
-      // user.save((err)=>{
-      //   if(err){
-      //       throw err
-      //   }
-      //   User.find({email: req.body.email, password: req.body.password}).then((result)=>{
-      //       if(result){
-      //           console.log("stored")
-      //           res.redirect("/")
-      //       }
-      //   })
-      //})
-      
-  //}
-// }
+     
 
 module.exports = UsersController
