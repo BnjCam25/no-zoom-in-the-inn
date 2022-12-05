@@ -78,9 +78,6 @@ const UsersController = {
           })
         }
       })
-    }
-}
-
     },
     Profile: (req, res) => {
         
@@ -101,5 +98,6 @@ const UsersController = {
       })
     }
   }
+    
     
 module.exports = UsersController
