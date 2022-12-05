@@ -47,6 +47,8 @@ const UsersController = {
   },
 
   AddFriend: (req, res) => {
+    let fwends = false
+    global.fwends
     //    // check if current user is in the friends list
       User.findOne({ _id: req.body.id, friends: req.session.user._id }).exec((err, result) => {
         if (err) {
@@ -73,14 +75,12 @@ const UsersController = {
               if (err) {
                 throw err
               }
+              global.fwends = true
               res.status(200).redirect('/users/all')
             })
           })
         }
       })
-    }
-}
-
     },
     Profile: (req, res) => {
         

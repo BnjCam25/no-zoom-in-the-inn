@@ -8,7 +8,7 @@
 <li>{{this.first_name}} {{this.last_name}}</li>
 <form action="/users/addfriend" method = "POST">
     <input type="hidden" id={{@index}} name="id" value={{this.id}}>
-    <button class="friendButton" id={{this.id}} style= 'background-color: rgb(227, 227, 227);' type="submit">Add or Delete friend</button>
+    <button class="friendButton" onclick="change(event)"  id={{this.id}} style= 'background-color: rgb(227, 227, 227);' type="submit">Add or Delete friend</button>
 </form>
 
 <br>
@@ -17,3 +17,14 @@
 {{/each}}
 
 </ul>
+
+<script>
+    function change(event){
+
+        if (event.target.innerHTML === "Remove friend"){
+            event.target.innerHTML = "Add friend";
+        }else{
+            event.target.innerHTML = "Remove friend";
+        }
+    }
+</script>
